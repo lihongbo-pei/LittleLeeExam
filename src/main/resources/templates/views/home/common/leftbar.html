@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>leftbar</title>
+
+</head>
+<body>
+<!--左侧导航-->
+<aside class="lyear-layout-sidebar" id="leftbaraside">
+
+    <div id="logo" class="sidebar-header">
+        <a class="navbar-brand" style="font-size: 20px"
+           th:href="@{/home/user/index}">在线考试系统</a>
+    </div>
+    <div class="lyear-layout-sidebar-scroll">
+        <nav class="sidebar-main">
+            <ul class="nav nav-drawer">
+                <li class="nav-item" ><a
+                        th:href="@{/home/user/index}"><i
+                        class="mdi mdi-home"></i>系统首页</a></li>
+                <li  class="nav-item nav-item-has-subnav"
+                    >
+                    <a href="javascript:void(0)"><i class="mdi mdi-comment-text"></i>
+                        我的考试</a>
+                    <ul class="nav nav-subnav">
+                        <li  ><a
+                                th:href="@{/home/user/exam_list}">我的考试</a></li>
+                        <li  ><a
+                                th:href="@{/home/user/history_list}">历史考试</a></li>
+                    </ul>
+                </li>
+                <li  class="nav-item nav-item-has-subnav"
+
+                ><a href="javascript:void(0)"><i class="mdi mdi-account-settings-variant"></i>个人信息</a>
+                    <ul class="nav nav-subnav">
+                        <li  ><a
+                                th:href="@{/home/user/password}">修改密码</a></li>
+                        <li  ><a
+                                th:href="@{/home/user/profile}">账户信息</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
+<!--End 左侧导航-->
+</body>
+</html>

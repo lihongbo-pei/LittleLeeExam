@@ -1,0 +1,246 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/home/login::head">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background: url("static/home/images/background.jpg") no-repeat center;
+        }
+        .rg_layout{
+            width: 900px;
+            height: 500px;
+            border: 8px solid #EEEEEE;
+            background: white;
+            margin:15px auto;
+        }
+        .rg_left{
+            /*border: 1px solid red;*/
+            float: left;
+            margin: 15px;
+        }
+        .rg_left > p:first-child{
+            color: #FFD026;
+            font-size: 20px;
+        }
+        .rg_left > p:last-child{
+            color: #A6A6A6;
+            font-size: 20px;
+        }
+        .rg_center{
+            /*border: 1px solid red;*/
+            float: left;
+        }
+        .rg_right{
+            /*border: 1px solid red;*/
+            float: right;
+            margin: 15px;
+        }
+        .rg_right > p:first-child{
+            font-size: 15px;
+        }
+        .rg_right p a{
+            color: pink;
+            font-size: 15px;
+        }
+        .td_left{
+            width: 100px;
+            text-align: right;
+            height: 45px;
+        }
+        .td_right{
+            padding-left: 50px;
+        }
+        /*id选择器 语法：#id属性值{}*/
+        #name,#u_userpass,#u_userpass2,#truename,#tel,#subjectId{
+            width: 251px;
+            height: 32px;
+            border: 1px solid #A6A6A6;
+            /*设置边框圆角*/
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        #cpacha{
+            width: 110px;
+            height: 32px;
+            border: 1px solid #A6A6A6;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        #cpacha-img{
+            height: 30px;
+            vertical-align: middle;
+        }
+        #btn_sub{
+            width: 150px;
+            height: 40px;
+            background: #FFD026;
+            border: 1px solid #FFD026;
+        }
+        .error{
+            color: red;
+        }
+        #td_sub{
+            padding-left: 150px;
+        }
+    </style>
+</head>
+
+
+
+<body class="tm_register_body" style="">
+
+<div class="tm_register_container">
+    <div class="rg_layout">
+        <div class="rg_left">
+            <p>新用户注册</p>
+            <p>USER REGISTER</p>
+        </div>
+        <div class="rg_center">
+            <div class="rg_form">
+                <!--form：用于定义表单的。可以定义一个范围，范围代表采集用户数据的范围-->
+                <form action="" id="form_register" method="post">
+                    <table>
+                        <caption>
+                            <p>填写以下表单信息，注册成为新用户</p>
+                        </caption>
+                        <tr>
+                            <td class="td_left"><label for="name">用户名</label></td>
+                            <td class="td_right">
+                                <input type="text" class="validate[required,minSize[3]] tm_txt" name="name" placeholder="请输入账号" id="name" >
+                                <span class="tm_required">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left"><label for="u_userpass">密码</label></td>
+                            <td class="td_right">
+                                <input type="password" class="validate[required] tm_txt" name="password" placeholder="请输入密码" id="u_userpass">
+                                <span id="s_password" class="error"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left"><label for="u_userpass2">确认密码</label></td>
+                            <td class="td_right">
+                                <input type="password" class="validate[required,equals[u_userpass]] tm_txt" name="u_userpass2" placeholder="确认密码" id="u_userpass2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left"><label for="name">真实姓名</label></td>
+                            <td class="td_right">
+                                <input type="text" class="tm_txt" name="truename" placeholder="请输入真实姓名" id="truename">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left"><label for="name">所属学科</label></td>
+                            <td class="td_right">
+                                <select class="validate[required] tm_select" name="subjectId" id="subjectId" >
+                                    <option value="">请选择</option>
+                                    <option th:each="subject : ${subjectList}" th:value="${subject.id }" th:text="${subject.name }"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left"><label for="tel">手机号</label></td>
+                            <td class="td_right">
+                                <input type="tel" class="tm_txt" name="tel" placeholder="请输入您的手机号" id="tel">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td_left">验证码</td>
+                            <td class="td_right">
+                                <input type="text" id="cpacha">
+                                <img id="cpacha-img" title="点击切换验证码" style="cursor:pointer;" src="get_cpacha?vl=4&w=150&h=40&type=registerCpacha" width="110px" height="30px" onclick="changeCpacha()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--            合并单元格居中-->
+                            <td colspan="2" id="td_sub">
+                                <input type="button" value="注册" id="btn_sub" onclick="tm.doRegister();">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="rg_right">
+            <p>已有账号？<a href="login">立即登录</a></p>
+        </div>
+    </div>
+
+    <div class="tm_register_foot" style="text-align: center; color: grey">
+        <div>Copyright © 【LittleLee】  版权所有 2020</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //切换验证码
+    function changeCpacha(){
+        $("#cpacha-img").attr("src",'get_cpacha?vl=4&w=150&h=40&type=registerCpacha&t=' + new Date().getTime());
+    }
+
+    var tm = {
+        doRegister : function(){
+            var formCheck = $("#form_register").validationEngine('validate', {showOneMessage: true});
+            if(!formCheck){
+                return false;
+            }
+            var u_username = $("input[name='name']").val();
+            var u_userpass = $("input[name='password']").val();
+            var u_truename = $("input[name='truename']").val();
+
+            var u_subjectId = $("select[name='subjectId']").val();
+            var u_tel = $("input[name='tel']").val();
+            var cpacha = $("#cpacha").val();
+
+            if(baseutil.isEmpty(u_username)){
+                alert('没有填写用户名');
+                return;
+            }
+            if(baseutil.isEmpty(u_userpass)){
+                alert('没有填写登录密码');
+                return;
+            }
+
+            if(baseutil.containsSpecialWord(u_username)){
+                alert("用户名中不能包含特殊字符");
+                return;
+            }
+            if(cpacha == '' || cpacha == 'undefined'){
+                alert("请填写验证码！");
+                return;
+            }
+
+            $("#btn_sub").text('提交...');
+            var tmdata = {
+                "name":u_username, "password":u_userpass,
+                "subjectId":u_subjectId, "tel":u_tel,
+                "trueName":u_truename, "t":Math.random(),"cpacha":cpacha};
+
+            $.ajax({
+                type: "POST",
+                url: "register",
+                dataType: "json",
+                data: tmdata,
+                success: function(data){
+                    if(data.type == 'success'){
+                        window.location="login.html";
+                        }else{
+                            alert(data.msg);
+                            //$(".tm_btn_primary").text('提交');
+                            //return;
+                            window.location.reload();
+                        }
+                },
+                error: function(){
+                    //$(".tm_btn_primary").text('登录');
+                    alert('系统忙，请稍后再试');
+                    window.location.reload();
+                }
+            });
+        }
+    };
+</script>
+
+</body></html>

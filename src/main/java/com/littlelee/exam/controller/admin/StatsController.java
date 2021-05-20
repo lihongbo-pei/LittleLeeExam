@@ -1,0 +1,76 @@
+package com.littlelee.exam.controller.admin;
+
+import com.littlelee.exam.service.admin.ExamPaperService;
+import com.littlelee.exam.service.admin.ExamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 成绩统计控制器
+ * @author littlelee
+ * @date 2020/5/14 16:34
+ */
+@RequestMapping("/admin/stats")
+@Controller
+public class StatsController {
+
+    @Autowired
+    private ExamService examService;
+    @Autowired
+    private ExamPaperService examPaperService;
+
+    /**
+     * 成绩统计页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/exam_stats", method = RequestMethod.GET)
+    public ModelAndView stats(ModelAndView model){
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("offset", 0);
+        queryMap.put("pageSize", 99999);
+        model.addObject("examList", examService.findList(queryMap));
+        model.setViewName("views/stats/exam_stats");
+        return model;
+    }
+
+    /**
+     * 根据考生信息统计结果
+     * @param examId
+     * @return
+     */
+    @RequestMapping(value="/get_stats",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getStats(Long examId){
+        Map<String, Object> ret = new HashMap<>();
+        if(examId == null){
+            ret.put("type", "error");
+            ret.put("msg", "选择要统计的考试信息！");
+            return ret;
+        }
+        List<Map<String, Object>> examStats = examPaperService.getExamStats(examId);
+        ret.put("type", "success");
+        ret.put("msg", "统计成功！");
+        ret.put("studentList", getListByMap(examStats, "sname"));
+        ret.put("studentScore", getListByMap(examStats, "score"));
+        return ret;
+    }
+
+    private List<Object> getListByMap(List<Map<String, Object>> mapList,String key){
+        List<Object> ret = new ArrayList<>();
+        for(Map<String, Object> map:mapList){
+            ret.add(map.get(key));
+        }
+        return ret;
+    }
+
+}

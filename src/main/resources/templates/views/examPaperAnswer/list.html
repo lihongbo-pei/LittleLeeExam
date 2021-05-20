@@ -1,0 +1,139 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/views/subject/list::head">
+</head>
+<body class="easyui-layout">
+<div class="easyui-layout" data-options="fit:true">
+    <!-- Begin of toolbar -->
+    <div id="wu-toolbar">
+        <div class="wu-toolbar-button">
+            <%@include file="../common/menus.html"%>
+        </div>
+        <div class="wu-toolbar-search">
+            <label>所属考试:</label>
+            <select id="search-exam" class="easyui-combobox" panelHeight="200px" style="width:120px">
+                <option value="-1">全部</option>
+                <option th:each="exam : ${examList}" th:value="${exam.id}" th:text="${exam.name}"></option>
+            </select>
+            <label>所属考生:</label>
+            <select id="search-student" class="easyui-combobox" panelHeight="200px" style="width:120px">
+                <option value="-1">全部</option>
+                <option th:each="student:${studentList}" th:value="${student.id}" th:text="${student.name}"></option>
+            </select>
+            <label>所属试题:</label>
+            <select id="search-question" class="easyui-combobox" panelHeight="300px" style="width:120px">
+                <option value="-1">全部</option>
+                <option th:each="question:${questionList}" th:value="${question.id}" th:text="${question.title}"></option>
+            </select>
+            <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+        </div>
+    </div>
+    <!-- End of toolbar -->
+    <table id="data-datagrid" class="easyui-datagrid" toolbar="#wu-toolbar"></table>
+</div>
+<!-- 添加  无 -->
+
+<!-- 修改窗口 无 -->
+
+<div id="loading" style="position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#F9F9F9;text-align :center;padding-top:20%;">
+    <img th:src="@{/admin/easyui/images/load-page.gif}" width="50%">
+    <h1><font color="#15428B">加载中....</font></h1>
+</div>
+</body>
+<script>
+    var pc;
+    //不要放在$(function(){});中
+    $.parser.onComplete = function () {
+        if (pc) clearTimeout(pc);
+        pc = setTimeout(closes, 1000);
+    }
+
+    function closes() {
+        $('#loading').fadeOut('normal', function () {
+            $(this).remove();
+        });
+    }
+</script>
+
+<!-- End of easyui-dialog -->
+<script type="text/javascript">
+
+	
+	//搜索功能 按钮监听
+	$("#search-btn").click(function(){
+		var option = {};
+        var examId = $("#search-exam").combobox('getValue');
+        if (examId != -1){
+            option.examId = examId;
+        }
+        var studentId = $("#search-student").combobox('getValue');
+        if (studentId != -1){
+            option.studentId = studentId;
+        }
+        var questionId = $("#search-question").combobox('getValue');
+        if (questionId != -1){
+            option.questionId = questionId;
+        }
+		$('#data-datagrid').datagrid('reload',option);
+	});
+	
+
+	
+	/** 
+	* 载入数据，显示表单
+	*/
+	$('#data-datagrid').datagrid({
+		url:'list',
+		rownumbers:true,
+		singleSelect:true,
+		pageSize:20,           
+		pagination:true,
+		multiSort:true,
+		fitColumns:true,
+		idField:'id',
+	    treeField:'name',
+        nowrap:false,//换行
+		fit:true,
+		columns:[
+		    [
+			{ field:'chk',checkbox:true},
+            { field:'examId',title:'所属考试',width:150,formatter:function (value,index,row) {
+                    var examList = $("#search-exam").combobox("getData");
+                    console.log(examList);
+                    console.log(value);
+                    for (var i = 0; i < examList.length; i++) {
+                        if (examList[i].value == value){
+                            return examList[i].text;
+                        }
+                    }
+                    return value;
+                }},
+            { field:'examPaperId',title:'试卷ID',width:200},
+            { field:'questionId',title:'所属试题',width:200,formatter:function (value,index,row) {
+                    var questionList = $("#search-question").combobox("getData");
+                    for (var i = 0; i < questionList.length; i++) {
+                        if (questionList[i].value == value){
+                            return questionList[i].text;
+                        }
+                    }
+                    return value;
+                }},
+            { field:'studentId',title:'所属学生',width:150,formatter:function (value,index,row) {
+                    var studentList = $("#search-student").combobox("getData");
+                    for (var i = 0; i < studentList.length; i++) {
+                        if (studentList[i].value == value){
+                            return studentList[i].text;
+                        }
+                    }
+                    return value;
+                }},
+            { field:'answer',title:'提交答案',width:200},
+            { field:'isCorrect',title:'是否正确',width:200,formatter:function (value,index,row) {
+                if (value == 0){
+                    return '错误';
+                }
+                return '正确';
+                }}
+		]
+        ]
+	});
+</script>

@@ -1,0 +1,32 @@
+package com.littlelee.exam.service.admin.impl;
+
+import java.util.List;
+
+import com.littlelee.exam.dao.admin.AuthorityDao;
+import com.littlelee.exam.entity.admin.Authority;
+import com.littlelee.exam.service.admin.AuthorityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthorityServiceImpl implements AuthorityService {
+
+	@Autowired
+	private AuthorityDao authorityDao;
+	
+	@Override
+	public int add(Authority authority) {
+		return authorityDao.add(authority);
+	}
+
+	@Override
+	public int deleteByRoleId(Long roleId) {
+		return authorityDao.deleteByRoleId(roleId);
+	}
+
+	@Override
+	public List<Authority> findListByRoleId(Long roleId) {
+		return authorityDao.findListByRoleId(roleId);
+	}
+
+}
