@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>  
+<html xmlns:th="http://www.thymeleaf.org">
 <head>  
     <meta charset="UTF-8">  
     <meta name="robots" content="noindex,nofollow">  
@@ -18,10 +18,10 @@
     <div class="wrap">  
         <table>  
             <tr>  
-                <td rowspan="5" style=""><img src="../../resources/home/exam/images/error.jpg" alt="错误页面"></td>  
+                <td rowspan="5" style=""><img th:src="@{/home/exam/images/error.jpg}" alt="错误页面"></td>
                 <td class="header">很抱歉！当前操作出现错误</td>  
             </tr>  
-            <tr><td>原因：${msg }</td></tr>  
+            <tr><td th:text="|原因：${msg }|"></td></tr>
             <tr><td class="check-info">点击前往首页<a href="../user/index">考生首页</a></td></tr>  
         </table>  
     </div>  

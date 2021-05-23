@@ -1,11 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title th:text="${title }"></title>
-<link th:href="@{/home/exam/css/main.css}" rel="stylesheet" type="text/css" />
-<link th:href="@{/home/exam/css/test.css}" rel="stylesheet" type="text/css" />
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title th:text="${title }"></title>
+	<link th:href="@{/home/exam/css/main.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/home/exam/css/test.css}" rel="stylesheet" type="text/css" />
+
+	<script th:src="@{/home/exam/js/jquery-1.11.3.min.js}"></script>
+	<script th:src="@{/home/exam/js/jquery.easy-pie-chart.js}"></script>
+	<!--时间js-->
+	<script th:src="@{/home/exam/js/jquery.countdown.js}"></script>
 <style>
 .hasBeenAnswer {
 	background: #2ecc71;
@@ -25,7 +30,7 @@
 						<p class="test_time">
 							<img style="float:left;margin-top:15px;margin-left:10px;" th:src="@{/home/exam/images/time.png}" width="16px"><b class="alt-1" th:text="|${hour }:${minute }:${second }|"></b>
 						</p>
-						<font><input type="button" onclick="submitExam()" name="test_jiaojuan" value="交卷"></font>
+						<font><input type="button" th:onclick="submitExam()" name="test_jiaojuan" value="交卷"></font>
 					</div>
 
 						<div class="test_content" th:if="${exam.singleQuestionNum !=0 }">
@@ -38,7 +43,7 @@
 						</div>
 						<div class="test_content_nr">
 							<ul>
-									<li th:each="sq : ${singleQuestionList}" id="qu_${singleQuestion }_${sq.question.id}" th:data-key="${sq.id}">
+									<li th:each="sq : ${singleQuestionList}" th:id="|qu_${singleQuestion }_${sq.question.id}|" th:data-key="${sq.id}">
 
 										<div class="test_content_nr_tt">
 											<i th:text="${sqStat.index + 1}">题号</i><span th:text="|(${sq.question.score}分)|">分数</span><font th:text="${sq.question.title }">题目</font>
@@ -48,40 +53,40 @@
 											<ul>
 
 												<li class="option" data-type="single" data-value="A">
-													<input type="radio" class="radioOrCheck" name="answer${sq.id}"
-														id="${singleQuestion }_answer_${sq.id}_option_1"
+													<input type="radio" class="radioOrCheck" th:name="|answer${sq.id}|"
+														th:id="|${singleQuestion }_answer_${sq.id}_option_1|"
 													/>
-													<label for="${singleQuestion }_answer_${sq.id}_option_1">
+													<label th:for="|${singleQuestion }_answer_${sq.id}_option_1|">
 														A.
 														<p class="ue" style="display: inline;" th:text="${sq.question.attrA }"></p>
 													</label>
 												</li>
 
 												<li class="option" data-type="single" data-value="B">
-													<input type="radio" class="radioOrCheck" name="answer${sq.id}"
-														id="${singleQuestion }_answer_${sq.id}_option_2"
+													<input type="radio" class="radioOrCheck" th:name="|answer${sq.id}|"
+														th:id="|${singleQuestion }_answer_${sq.id}_option_2|"
 													/>
-													<label for="${singleQuestion }_answer_${sq.id}_option_2">
+													<label th:for="|${singleQuestion }_answer_${sq.id}_option_2|">
 														B.
 														<p class="ue" style="display: inline;" th:text="${sq.question.attrB }"></p>
 													</label>
 												</li>
 
 												<li class="option" data-type="single" data-value="C">
-													<input type="radio" class="radioOrCheck" name="answer${sq.id}"
-														id="${singleQuestion }_answer_${sq.id}_option_3"
+													<input type="radio" class="radioOrCheck" th:name="|answer${sq.id}|"
+														th:id="|${singleQuestion }_answer_${sq.id}_option_3|"
 													/>
-													<label for="${singleQuestion }_answer_${sq.id}_option_3">
+													<label th:for="|${singleQuestion }_answer_${sq.id}_option_3|">
 														C.
 														<p class="ue" style="display: inline;" th:text="${sq.question.attrC }"></p>
 													</label>
 												</li>
 
 												<li class="option" data-type="single" data-value="D">
-													<input type="radio" class="radioOrCheck" name="answer${sq.id}"
-														id="${singleQuestion }_answer_${sq.id}_option_4"
+													<input type="radio" class="radioOrCheck" th:name="|answer${sq.id}|"
+														th:id="|${singleQuestion }_answer_${sq.id}_option_4|"
 													/>
-													<label for="${singleQuestion }_answer_${sq.id}_option_4">
+													<label th:for="|${singleQuestion }_answer_${sq.id}_option_4|">
 														D.
 														<p class="ue" style="display: inline;" th:text="${sq.question.attrD }"></p>
 													</label>
@@ -105,7 +110,7 @@
 						</div>
 						<div class="test_content_nr" th:if="${exam.muiltQuestionNum !=0 }">
 							<ul>
-									<li th:each="mq : ${muiltQuestionList}" id="qu_${muiltQuestion }_${mq.question.id}" data-key="${mq.id}">
+									<li th:each="mq : ${muiltQuestionList}" th:id="|qu_${muiltQuestion }_${mq.question.id}|" th:data-key="${mq.id}">
 										<div class="test_content_nr_tt">
 											<i th:text="${mqStat.index + exam.singleQuestionNum + 1 }"></i><span th:text="|(${mq.question.score}分)|"></span><font th:text="${mq.question.title }"></font>
 										</div>
@@ -115,9 +120,9 @@
 
 												<li class="option" data-type="muilt" data-value="A">
 													<input type="checkbox" class="radioOrCheck" name="answer1"
-														id="${muiltQuestion }_answer_${mq.id}_option_1" value="A"
+														th:id="|${muiltQuestion }_answer_${mq.id}_option_1|" value="A"
 													/>
-													<label for="${muiltQuestion }_answer_${mq.id}_option_1">
+													<label th:for="|${muiltQuestion }_answer_${mq.id}_option_1|">
 														A.
 														<p class="ue" style="display: inline;" th:text="${mq.question.attrA}"></p>
 													</label>
@@ -125,9 +130,9 @@
 												
 												<li class="option" data-type="muilt" data-value="B">
 													<input type="checkbox" class="radioOrCheck" name="answer1"
-														id="${muiltQuestion }_answer_${mq.id}_option_2" value="B"
+														th:id="|${muiltQuestion }_answer_${mq.id}_option_2|" value="B"
 													/>
-													<label for="${muiltQuestion }_answer_${mq.id}_option_2">
+													<label th:for="|${muiltQuestion }_answer_${mq.id}_option_2|">
 														B.
 														<p class="ue" style="display: inline;" th:text="${mq.question.attrB}"></p>
 													</label>
@@ -135,9 +140,9 @@
 												
 												<li class="option" data-type="muilt" data-value="C">
 													<input type="checkbox" class="radioOrCheck" name="answer1"
-														id="${muiltQuestion }_answer_${mq.id}_option_3" value="C"
+														th:id="|${muiltQuestion }_answer_${mq.id}_option_3|" value="C"
 													/>
-													<label for="${muiltQuestion }_answer_${mq.id}_option_3">
+													<label th:for="|${muiltQuestion }_answer_${mq.id}_option_3|">
 														C.
 														<p class="ue" style="display: inline;" th:text="${mq.question.attrC}"></p>
 													</label>
@@ -145,9 +150,9 @@
 												
 												<li class="option" data-type="muilt" data-value="D">
 													<input type="checkbox" class="radioOrCheck" name="answer1"
-														id="${muiltQuestion }_answer_${mq.id}_option_4" value="D"
+														th:id="|${muiltQuestion }_answer_${mq.id}_option_4|" value="D"
 													/>
-													<label for="${muiltQuestion }_answer_${mq.id}_option_4">
+													<label th:for="|${muiltQuestion }_answer_${mq.id}_option_4|">
 														D.
 														<p class="ue" style="display: inline;" th:text="${mq.question.attrD}"></p>
 													</label>
@@ -170,7 +175,7 @@
 						</div>
 						<div class="test_content_nr" th:if="${exam.chargeQuestionNum !=0 }">
 							<ul>
-									<li th:each="cq : ${chargeQuestionList}" id="qu_${chargeQuestion }_${cq.question.id}" data-key="${cq.id}">
+									<li th:each="cq : ${chargeQuestionList}" th:id="|qu_${chargeQuestion }_${cq.question.id}|" th:data-key="${cq.id}">
 										<div class="test_content_nr_tt">
 											<i th:text="${cqStat.index+exam.singleQuestionNum+exam.muiltQuestionNum+1}"></i><span th:text="|(${cq.question.score}分)|"></span><font th:text="${cq.question.title }"></font>
 										</div>
@@ -179,20 +184,20 @@
 											<ul>
 
 												<li class="option" data-type="charge" data-value="A">
-													<input type="radio" class="radioOrCheck" name="answer${cq.id}"
-														id="${chargeQuestion }_answer_${cq.id}_option_1"
+													<input type="radio" class="radioOrCheck" th:name="|answer${cq.id}|"
+														th:id="|${chargeQuestion }_answer_${cq.id}_option_1|"
 													/>
-													<label for="${chargeQuestion }_answer_${cq.id}_option_1">
+													<label th:for="|${chargeQuestion }_answer_${cq.id}_option_1|">
 														A.
 														<p class="ue" style="display: inline;" th:text="${cq.question.attrA }"></p>
 													</label>
 												</li>
 												
 												<li class="option" data-type="charge" data-value="B">
-													<input type="radio" class="radioOrCheck" name="answer${cq.id}"
-														id="${chargeQuestion }_answer_${cq.id}_option_2"
+													<input type="radio" class="radioOrCheck" th:name="|answer${cq.id}|"
+														th:id="|${chargeQuestion }_answer_${cq.id}_option_2|"
 													/>
-													<label for="${chargeQuestion }_answer_${cq.id}_option_2">
+													<label th:for="|${chargeQuestion }_answer_${cq.id}_option_2|">
 														B.
 														<p class="ue" style="display: inline;" th:text="${cq.question.attrB }"></p>
 													</label>
@@ -203,12 +208,12 @@
 								</c:forEach>
 							</ul>
 						</div>
-					</c:if>
 					
 				</form>
 			</div>
 		</div>
-		<%--  答题卡  --%>
+
+		<!--答题卡-->
 		<div class="nr_right">
 			<div class="nr_rt_main">
 				<div class="rt_nr1">
@@ -231,7 +236,7 @@
 							</div>
 							<div class="rt_content_nr answerSheet">
 								<ul>
-									<li th:each="ssq : ${singleQuestionList}"><a href="#qu_${singleQuestion}_${ssq.question.id}" th:text="${ssqStat.index + 1 }"></a></li>
+									<li th:each="ssq : ${singleQuestionList}"><a th:href="|#qu_${singleQuestion}_${ssq.question.id}|" th:text="${ssqStat.index + 1 }"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -245,7 +250,7 @@
 							</div>
 							<div class="rt_content_nr answerSheet">
 								<ul>
-									<li th:each="mmq : ${muiltQuestionList}"><a href="#qu_${muiltQuestion}_${mmq.question.id }" th:text="${mmqStat.index + exam.singleQuestionNum + 1 }"></a></li>
+									<li th:each="mmq : ${muiltQuestionList}"><a th:href="|#qu_${muiltQuestion}_${mmq.question.id }|" th:text="${mmqStat.index + exam.singleQuestionNum + 1 }"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -259,7 +264,7 @@
 							</div>
 							<div class="rt_content_nr answerSheet">
 								<ul>
-									<li th:each="ccq : ${chargeQuestionList}"><a href="#qu_${chargeQuestion}_${ccq.question.id}" th:text="${ccqStat.index+exam.singleQuestionNum+exam.muiltQuestionNum+1}"></a></li>
+									<li th:each="ccq : ${chargeQuestionList}"><a th:href="|#qu_${chargeQuestion}_${ccq.question.id}|" th:text="${ccqStat.index+exam.singleQuestionNum+exam.muiltQuestionNum+1}"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -272,10 +277,7 @@
 	<div class="foot"></div>
 </div>
 
-<script th:src="@{/home/exam/js/jquery-1.11.3.min.js}"></script>
-<script th:src="@{/home/exam/js/jquery.easy-pie-chart.js}"></script>
-<!--时间js-->
-<script th:src="@{/home/exam/js/jquery.countdown.js}"></script>
+
 <script>
 	window.jQuery(function($) {
 		"use strict";
@@ -305,10 +307,12 @@
 			}
 			var examArr = examId.split('_');
 			var questionId = examArr[2];
-			var submitExamId = ${exam.id};
-			var examPaperId = ${examPaper.id};
+
+			var submitExamId = [[${exam.id}]];
+			var examPaperId = [[${examPaper.id}]];
+
 			var examPaperAnswerId = $("#"+examId).attr("data-key");
-			//console.log(questionId+'--'+submitExamId+'--'+examPaperId);
+			// console.log(questionId+'--'+submitExamId+'--'+examPaperId);
 			var selectedAnswer = $(this).closest("li.option").attr("data-value");
 			if($(this).closest("li.option").attr("data-type") == 'muilt'){
 				//如果是多选
@@ -346,6 +350,7 @@
 			});
 		});
 	});
+
 	var autoSubmit = false;
 	//当考试时间结束后自动提交试卷
 	function autoSubmitExam(){
@@ -357,7 +362,7 @@
 			type: "POST",
 			url: "submit_exam",
 			dataType: "json",
-			data: {"examId":'${exam.id}',examPaperId:'${examPaper.id}'},
+			data: {"examId":[[${exam.id}]],examPaperId:[[${examPaper.id}]]},
 			success: function(data){
 				if(data.type == 'success'){
 					alert('考试时间到，考试成绩已出，请到会员中心查看');
@@ -375,31 +380,32 @@
 			}
 		});
 	}
-function submitExam(){
-	var wcm = window.confirm('提交后将不能再进行考试，确认提交？');
-	if(!wcm){
-		return;
-	}
-	//提交试卷
-	$.ajax({
-		type: "POST",
-		url: "submit_exam",
-		dataType: "json",
-		data: {"examId":'${exam.id}',examPaperId:'${examPaper.id}'},
-		success: function(data){
-			if(data.type == 'success'){
-				alert('考试成绩已出，请到会员中心查看');
-				window.location="../user/index";
-			}else{
-				alert(data.msg);
-			}
-		},
-		error: function(){
-			alert('系统忙，请稍后再试');
-			window.location.reload();
+
+	function submitExam(){
+		var wcm = window.confirm('提交后将不能再进行考试，确认提交？');
+		if(!wcm){
+			return;
 		}
-	});
-}
+		//提交试卷
+		$.ajax({
+			type: "POST",
+			url: "submit_exam",
+			dataType: "json",
+			data: {"examId":[[${exam.id}]],examPaperId:[[${examPaper.id}]]},
+			success: function(data){
+				if(data.type == 'success'){
+					alert('考试成绩已出，请到会员中心查看');
+					window.location="../user/index";
+				}else{
+					alert(data.msg);
+				}
+			},
+			error: function(){
+				alert('系统忙，请稍后再试');
+				window.location.reload();
+			}
+		});
+	}
 </script>
 
 <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">

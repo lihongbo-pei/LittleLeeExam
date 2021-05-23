@@ -52,17 +52,17 @@
                             <tbody>
                             <tr>
                                 <th width="120">用户名 : </th>
-                                <td>${student.name}</td>
+                                <td th:text="${student.name}"></td>
                             </tr>
                             <tr>
                                 <th width="120">所属学科 : </th>
-                                <td>${subject.name}</td>
+                                <td th:text="${subject.name}"></td>
                             </tr>
 
                             <tr>
                                 <th>真实姓名 : </th>
                                 <td>
-                                    <input type="text" id="truename" name="truename" class="validate[required] tm_txt" size="50" maxlength="30" value="${student.trueName}" />
+                                    <input type="text" id="truename" name="truename" class="validate[required] tm_txt" size="50" maxlength="30" th:value="${student.trueName}" />
                                     <span class="tm_required">*</span>
                                     <span class="tm_tip">填写用户的真实姓名</span>
                                 </td>
@@ -70,7 +70,7 @@
 
                             <tr>
                                 <th>联系电话 : </th>
-                                <td><input type="text" id="tel" name="tel" class="tm_txt" size="50" maxlength="30" value="${student.tel}" /></td>
+                                <td><input type="text" id="tel" name="tel" class="tm_txt" size="50" maxlength="30" th:value="${student.tel}" /></td>
                             </tr>
 
                             </tbody>

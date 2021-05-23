@@ -6,13 +6,11 @@
     <script th:src="@{/js/jquery.js}"></script>
     <script type="text/javascript">
 
-        var tm = {
-            logout : function(){
-                if(window.confirm('确定要退出登录吗？')){
-                    top.location.href = "home/user/logout";
-                }
+         function logout(){
+            if(window.confirm('确定要退出登录吗？')){
+                top.location.href = "home/user/logout";
             }
-        };
+        }
 
         var tm_activemenu = function(obj){
             $(obj).parent().parent().children("li").attr("class","");
@@ -67,8 +65,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
 
-                        <li><a href="javascript:void(0);" th:onclick="return tm.logout();"><i
+                        <li><a href="#" th:onclick="'javascript:logout()'"><i
                                 class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                        <li><a th:href="@{/home/user/profile}"><i
+                                class="mdi mdi-logout-variant"></i> 账户</a></li>
                         <li><a th:href="@{../../system/login}" target="_blank"><i
                                 class="mdi mdi-logout-variant"></i> 管理员登录</a></li>
                     </ul>

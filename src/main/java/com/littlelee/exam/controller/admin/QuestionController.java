@@ -48,7 +48,7 @@ public class QuestionController {
         queryMap.put("offset", 0);
         queryMap.put("pageSize", 99999);
         model.addObject("subjectList", subjectService.findList(queryMap));
-        model.setViewName("views/question/list");
+        model.setViewName("question/list");
         return model;
     }
 

@@ -44,7 +44,7 @@ public class ExamPaperController {
         queryMap.put("pageSize",99999);
         model.addObject("examList",examService.findList(queryMap));
         model.addObject("studentList",studentService.findList(queryMap));
-        model.setViewName("views/examPaper/list");
+        model.setViewName("examPaper/list");
         return model;
     }
 
