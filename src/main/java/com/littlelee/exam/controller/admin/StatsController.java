@@ -39,7 +39,7 @@ public class StatsController {
         queryMap.put("offset", 0);
         queryMap.put("pageSize", 99999);
         model.addObject("examList", examService.findList(queryMap));
-        model.setViewName("views/stats/exam_stats");
+        model.setViewName("stats/exam_stats");
         return model;
     }
 

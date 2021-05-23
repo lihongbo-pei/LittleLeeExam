@@ -47,7 +47,7 @@ public class ExamPaperAnswerController {
         model.addObject("examList", examService.findList(queryMap));
         model.addObject("studentList",studentService.findList(queryMap));
         model.addObject("questionList",questionService.findList(queryMap));
-        model.setViewName("views/examPaperAnswer/list");
+        model.setViewName("examPaperAnswer/list");
         return model;
     }
 

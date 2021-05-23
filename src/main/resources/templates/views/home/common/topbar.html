@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>topbar</title>
-    <script th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/home/js/jquery.js}"></script>
+
+
     <script type="text/javascript">
 
-         function logout(){
+        console.log("aaa");
+
+        function logout(){
             if(window.confirm('确定要退出登录吗？')){
                 top.location.href = "home/user/logout";
             }
-        }
-
-        var tm_activemenu = function(obj){
-            $(obj).parent().parent().children("li").attr("class","");
-            $(obj).parent().attr("class","active");
         };
+
+        console.log("bbb");
+
         //异步获取登录账号信息
         $.ajax({
             type: "POST",
-            url: "/exam/home/user/get_current",
-            dataType:'json',
+            url: "get_current",
+            dataType:"json",
             success: function(data){
                 console.log(data)
                 if (data.type == 'success'){
@@ -65,7 +67,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
 
-                        <li><a href="#" th:onclick="'javascript:logout()'"><i
+                        <li><a href="#" th:onclick="logout()"><i
                                 class="mdi mdi-logout-variant"></i> 退出登录</a></li>
                         <li><a th:href="@{/home/user/profile}"><i
                                 class="mdi mdi-logout-variant"></i> 账户</a></li>
@@ -79,5 +81,7 @@
     </nav>
 </header>
 <!--End 头部信息-->
+
+
 </body>
 </html>

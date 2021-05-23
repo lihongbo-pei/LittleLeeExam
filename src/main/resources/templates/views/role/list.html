@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@include file="../common/header.html"%>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/subject/list::head">
+</head>
+<body class="easyui-layout">
 <div class="easyui-layout" data-options="fit:true">
     <!-- Begin of toolbar -->
     <div id="wu-toolbar">
@@ -397,7 +399,8 @@
 		idField:'id',
 	    treeField:'name',
 		fit:true,
-		columns:[[
+		columns:[
+		    [
 			{ field:'chk',checkbox:true},
 			{ field:'name',title:'角色名称',width:100,sortable:true},
 			{ field:'remark',title:'角色备注',width:100,sortable:true},
@@ -405,7 +408,8 @@
 				var test = '<a class="authority-edit" onclick="selectAuthority('+row.id+')"></a>'
 				return test;
 			}},
-		]],
+		]
+        ],
 		onLoadSuccess:function(data){  
 			$('.authority-edit').linkbutton({text:'编辑权限',plain:true,iconCls:'icon-edit'});  
 		 }  

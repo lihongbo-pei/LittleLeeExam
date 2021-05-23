@@ -68,8 +68,9 @@
 											<td>
 												<button class="btn btn-danger btn-sm edit_btn"
 												>
-															<span class="glyphicon glyphicon-log-out"
-																  aria-hidden="true"></span> 回顾试卷
+													<a th:href="|review_exam?examId=${history.exam.id }&examPaperId=${history.id}|" target="_blank" style="text-decoration:none;color:white;"><span class="glyphicon glyphicon-log-out"
+																	 aria-hidden="true"></span> 回顾试卷</a>
+
 												</button>
 											</td>
 										</tr>
